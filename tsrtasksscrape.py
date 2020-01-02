@@ -21,7 +21,12 @@ with open('new_quest_data.json','w') as file:
             else:
                 firstgroup = False
             quest = task.find('p', attrs={'class': 'taskText'})
-            file.write(f'\t{{\n\t\t"name": "{quest.text}",\n\t\t"reward_pool": {{\n')
+            name_end = quest.text.find('.')
+            if name_end > 0:
+                quest_text = quest.text[:name_end]
+            else:
+                quest_text = quest.text
+            file.write(f'\t{{\n\t\t"name": "{quest_text}",\n\t\t"reward_pool": {{\n')
             rewards = task.findAll('div', attrs={'class': 'task-reward'})
             reward_pool = {"encounters": [], "stardust": [], "items": {}}
             for reward in rewards:
